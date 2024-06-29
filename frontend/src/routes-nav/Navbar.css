@@ -1,0 +1,32 @@
+.navbar-main-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links-section {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 20px; /* Adjust spacing between items as needed */
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff; /* Adjust text color */
+  padding: 10px 15px;
+}
+
+.nav-link:hover {
+  color: #1890ff; /* Adjust hover color */
+}

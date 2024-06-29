@@ -1,0 +1,56 @@
+.item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  font-size: large;
+  background-color: rgb(108, 110, 110);
+  color: white;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+.item-details {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+/* .item-name,
+.item-quantity,
+.item-purpose {
+  margin-right: 10px;
+}
+
+.item-delete {
+  margin-left: auto;
+  cursor: pointer;
+  color: white; 
+  font-size: x-large;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+} */

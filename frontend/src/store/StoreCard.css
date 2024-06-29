@@ -1,0 +1,36 @@
+.store-card-container {
+  position: relative;
+}
+
+.store-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.store-card-content {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #323131;
+  color: white;
+}
+
+.close-icon-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  color: white;
+  z-index: 10;
+}
+
+.close-icon {
+  font-size: 24px;
+  color: white;
+}
+
+.close-icon:hover {
+  color: red;
+}

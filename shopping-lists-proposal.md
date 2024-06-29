@@ -7,7 +7,7 @@ The Shopping List app is designed to help users create and manage shopping lists
 ### Sections:
 
 1. [Dabase Design](#database-design)
-2. [Internal API](#internal-api) (no third party API used)
+2. [Internal API](#internal-api)
 3. [User Flows](#user-flows)
 4. [Technical Details](#technical-details)
 5. [User Data and AuthN/AuthZ](#user-data-and-authnauthz)

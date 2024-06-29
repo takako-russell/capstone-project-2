@@ -1,0 +1,46 @@
+.add-item-form {
+  display: flex;
+  flex-direction: column;
+  color: gray;
+}
+
+.add-item-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-item-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  margin-left: 190px;
+}
+
+.add-item-form input {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.add-button {
+  background-color: #94a017;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+.optional-txt {
+  margin-left: 20px;
+  padding: 5px;
+  border-radius: 2px;
+  font-size: x-small;
+  background-color: #ccc;
+  color: white;
+}
+.input-txt {
+  margin-left: 185px;
+}
