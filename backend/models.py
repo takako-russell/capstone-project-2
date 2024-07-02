@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.schema import ForeignKeyConstraint, PrimaryKeyConstraint
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -83,6 +84,7 @@ class Item(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     itemname = db.Column(db.Text,nullable=False)
     quantity = db.Column(db.Integer)
+    brand = db.Column(db.String)
     purpose = db.Column(db.String)
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'), nullable=False)
     
@@ -91,16 +93,24 @@ class Item(db.Model):
             "id":self.id,
             "itemName":self.itemname,
             "quantity":self.quantity,
-            "purpose":self.purpose
+            "brand":self.brand,
+            "purpose":self.purpose,
         }
+    
     
 class Expense(db.Model):
     """Expenses"""
     __tablename__ = "expenses"
-    id = db.Column(db.Integer,primary_key=True)
-    expense_name = db.Column(db.Text,nullable=False)
-    amount = db.Column(db.Integer,nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
+    amount = db.Column(db.Integer, nullable=False)
     
+    def to_json(self):
+        return {
+            "id":self.id,
+            "date":self.date,
+            "amount":self.amount
+        }
  
 def connect_db(app):
     """Connect this database to provided Flask app"""

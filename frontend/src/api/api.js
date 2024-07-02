@@ -97,6 +97,7 @@ class ShoppingApi {
     const items = res.items.map((item) => ({
       itemName: item.itemname,
       quantity: item.quantity,
+      brand: item.brand,
       purpose: item.purpose,
     }));
     console.log("get items:", res.items);
@@ -119,8 +120,14 @@ class ShoppingApi {
   }
 
   static async addExpense(expenseData) {
+    console.log("api.addExpense expenseData:", expenseData);
     let res = await this.request("expenses", expenseData, "post");
     return res.expense;
+  }
+
+  static async getAllExpenses() {
+    let res = await this.request("expenses");
+    return res.expenses;
   }
 
   // TODO: REMOVE BELOW BUT USE AS REFERENCE

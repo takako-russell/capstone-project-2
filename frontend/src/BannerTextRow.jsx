@@ -50,7 +50,7 @@ const BannerTextRow = ({ location }) => {
                 style={{
                   position: "absolute",
                   top: "65%",
-                  left: "60%",
+                  left: "55%",
                   transform: "translate(-50%, -50%)",
                   fontSize: "70px",
                   fontWeight: "300",

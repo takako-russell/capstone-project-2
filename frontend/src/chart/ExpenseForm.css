@@ -1,0 +1,35 @@
+.expense-form {
+  display: flex;
+  flex-direction: column;
+  color: gray;
+}
+
+.expense-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.expense-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  margin-left: 220px;
+}
+
+.expense-form input {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.submit-button {
+  background-color: #94a017;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}

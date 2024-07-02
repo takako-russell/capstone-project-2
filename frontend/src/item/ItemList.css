@@ -1,4 +1,4 @@
-.item {
+/* .item {
   display: flex;
   align-items: center;
   padding: 20px;
@@ -7,14 +7,29 @@
   color: white;
   opacity: 0.9;
   margin-top: 5px;
+} */
+.item {
+  background-color: rgb(108, 110, 110);
+  color: white;
+  opacity: 0.9;
+  height: 60px;
+  padding-top: 20px;
+  margin: 5px;
 }
-
+.item-delete {
+  float: right;
+  cursor: pointer;
+  color: white;
+  font-size: large;
+  margin-right: 20px;
+}
+/* 
 .item-details {
   display: flex;
   gap: 10px;
   margin-left: 10px;
   flex-grow: 1;
-}
+} */
 
 /* .item-name,
 .item-quantity,

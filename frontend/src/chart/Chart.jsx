@@ -1,31 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import { LineChart, axisClasses } from "@mui/x-charts";
+import ShoppingApi from "../api/api";
 
-// import Title from "./Title";
+const generateMonthlyExpenses = async () => {
+  let expenses = await ShoppingApi.getAllExpenses();
+  console.log(expenses);
+  const monthlySums = {};
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount: amount ?? null };
-}
+  expenses.forEach((expense) => {
+    const date = new Date(expense.date);
+    const month = date.getMonth();
+    const year = date.getFullYear();
 
-const data = [
-  createData("Jan", 1200),
-  createData("Feb", 1300),
-  createData("Mar", 1600),
-  createData("April", 1800),
-  createData("May", 1500),
-  createData("Jun", 2000),
-  createData("July", 1500),
-  createData("Aug", 1300),
-  createData("Sep", 1500),
-  createData("Oct", 1500),
-  createData("Nov", 1300),
-  createData("Dec", 1800),
-];
+    const key = `${year}-${month}`;
+
+    if (!monthlySums[key]) {
+      monthlySums[key] = 0;
+    }
+
+    monthlySums[key] += expense.amount;
+    console.log(monthlySums);
+  });
+  return monthlySums;
+};
+
+const convertToChartData = (monthlySums) => {
+  const data = [];
+
+  return Object.keys(monthlySums).map((key) => {
+    const [year, month] = key.split("-");
+    return {
+      month: new Date(year, month).toLocaleString("default", { month: "long" }),
+      year: parseInt(year),
+      amount: monthlySums[key],
+    };
+  });
+};
+
+// const data = [
+//   createData("Jan", 1200),
+//   createData("Feb", 1300),
+//   createData("Mar", 1600),
+//   createData("April", 1800),
+//   createData("May", 1500),
+//   createData("Jun", 2000),
+//   createData("July", 1500),
+//   createData("Aug", 1300),
+//   createData("Sep", 1500),
+//   createData("Oct", 1500),
+//   createData("Nov", 1300),
+//   createData("Dec", 1800),
+// ];
 
 export default function Chart() {
   const theme = useTheme();
+  const [monthlyExpenses, setMonthlyExpenses] = useState([]);
+
+  useEffect(() => {
+    const expenses = generateMonthlyExpenses();
+    const chartData = convertToChartData(expenses);
+    setMonthlyExpenses(chartData);
+  }, []);
 
   return (
     <React.Fragment>
@@ -39,7 +75,7 @@ export default function Chart() {
         }}
       >
         <LineChart
-          dataset={data}
+          dataset={monthlyExpenses}
           margin={{
             top: 16,
             right: 20,

@@ -9,27 +9,36 @@ const RoutesConfig = ({
   stores,
   searchStores,
   removeStore,
-  showAddStoreModal,
+  addStore,
+  addExpense,
 }) => (
   <Routes>
     <Route
-      path="/stores"
+      index // This is the index route ("localhost:5000/ etc")
       element={
-        <div>
-          <Space>
-            <Button type="link" onClick={showAddStoreModal}>
-              Add Store
-            </Button>
-          </Space>
-          <StoreList
-            stores={stores}
-            searchStores={searchStores}
-            removeStore={removeStore}
-          />
-        </div>
+        <StoreList
+          stores={stores}
+          searchStores={searchStores}
+          removeStore={removeStore}
+          addStore={addStore}
+          addExpense={addExpense}
+        />
       }
     />
-    <Route path="/*" element={<RoutesOverride />} />
+    <Route
+      path="/stores" // This is the stores route ("localhost:5000/stores")
+      element={
+        <StoreList
+          stores={stores}
+          searchStores={searchStores}
+          removeStore={removeStore}
+          addStore={addStore}
+          addExpense={addExpense}
+        />
+      }
+    />
+    <Route path="/*" element={<RoutesOverride />} /> // This is a catch-all
+    route for any other route that is not defined
   </Routes>
 );
 

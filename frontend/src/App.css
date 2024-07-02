@@ -128,10 +128,13 @@
   margin-bottom: 20px;
 }
 .store-card-card .ant-card-body {
-  background-color: "#443f3f";
+  /* background-color: "#443f3f"; */
+  /* background-color: #003333; */
+  background-color: 0D4D4D !important;
   color: "white";
   padding-top: 15;
   padding-right: 15;
+  border-radius: 8px !important;
 }
 .container-half {
   width: 50%;

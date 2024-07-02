@@ -3,10 +3,11 @@ import ShoppingApi from "../api/api";
 import "./AddItemForm.css";
 import { Button, Modal } from "antd";
 
-const AddItemForm = ({ storeId, addItem, closeModal }) => {
+const AddItemForm = ({ storeId, addItemToState }) => {
   const initialState = {
     itemName: "",
     quantity: "",
+    brand: "",
     purpose: "",
   };
 
@@ -23,21 +24,9 @@ const AddItemForm = ({ storeId, addItem, closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData in handleSubmit:", formData);
     let res = await ShoppingApi.addItem(storeId, formData);
-    console.log("added item:", res);
     setFormdata(initialState);
-    addItem(res);
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
+    addItemToState(res);
   };
 
   return (
@@ -51,6 +40,17 @@ const AddItemForm = ({ storeId, addItem, closeModal }) => {
           name="itemName"
           placeholder="item"
           value={formData?.itemName || ""}
+          onChange={handleChange}
+        />
+        <label htmlFor="brand" className="input-txt">
+          brand<span className="optional-txt">optional</span>
+        </label>
+        <input
+          id="brand"
+          type="text"
+          name="brand"
+          placeholder="brand"
+          value={formData?.brand || ""}
           onChange={handleChange}
         />
         <label htmlFor="quantity" className="input-txt">

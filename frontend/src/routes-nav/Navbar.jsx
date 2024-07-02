@@ -1,5 +1,6 @@
 import { Layout, Menu } from "antd";
 import { NavLink } from "react-router-dom";
+import "./Navbar.css";
 
 const { Header } = Layout;
 
@@ -18,8 +19,9 @@ const Navbar = ({ openStoreModal }) => {
       <Menu
         theme="light"
         mode="horizontal"
-        defaultSelectedKeys={["2"]}
+        defaultSelectedKeys={["/stores"]}
         style={{ flex: 1, minWidth: 0 }}
+        activeBarHeight="30"
       >
         <Menu.Item key="/">
           <NavLink className="nav-link" to="/">

@@ -22,12 +22,14 @@ const StoreCard = ({ store, removeStore }) => {
     <div className="store-card-container">
       <Link className="store-card" to={`/stores/${id}/items`}>
         <Card
-          bodyStyle={{
-            backgroundColor: "#443f3f",
-            color: "white",
-            paddingTop: 15,
-            paddingRight: 15,
-          }}
+          bodyStyle={
+            {
+              // backgroundColor: "#443f3f",
+              // color: "white",
+              // paddingTop: 15,
+              // paddingRight: 15,
+            }
+          }
         >
           <Row justify="end" style={{ maxHeight: 30 }}>
             <Col>

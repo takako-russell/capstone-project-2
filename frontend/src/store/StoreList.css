@@ -22,3 +22,36 @@
   padding: 20px;
   box-sizing: border-box;
 } */
+.container .ant-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.add-store-btn {
+  background-color: #818989;
+  color: white;
+}
+.add-expense-button-add {
+  width: 100%;
+  margin-top: 40px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #477187;
+  color: white;
+}
+
+.add-expense-button-details {
+  width: 100%;
+  margin-top: 40px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #477187;
+  color: white;
+}
+/* .add-expense-button.add {
+  width: 100%;
+  margin-top: 40px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #598f8c;
+  color: #454343;
+} */

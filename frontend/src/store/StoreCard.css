@@ -34,3 +34,18 @@
 .close-icon:hover {
   color: red;
 }
+
+.store-card .ant-card-body {
+  background-color: #474c50;
+  color: white;
+  padding-top: 15px;
+  padding-right: 15px;
+  border-radius: 6px;
+}
+.store-card .ant-card-body:hover {
+  background-color: #477187;
+  color: white;
+  padding-top: 15px;
+  padding-right: 15px;
+  border-radius: 8px;
+}

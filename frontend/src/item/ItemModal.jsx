@@ -2,7 +2,12 @@ import React from "react";
 import { Modal } from "antd";
 import AddItemForm from "./AddItemForm";
 
-const ItemModal = ({ isItemModalOpen, closeItemModal, addItem, storeId }) => (
+const ItemModal = ({
+  isItemModalOpen,
+  closeItemModal,
+  addItemToState,
+  storeId,
+}) => (
   <Modal
     title="Add Item"
     open={isItemModalOpen}
@@ -11,7 +16,7 @@ const ItemModal = ({ isItemModalOpen, closeItemModal, addItem, storeId }) => (
   >
     <AddItemForm
       storeId={storeId}
-      addItem={addItem}
+      addItemToState={addItemToState}
       closeModal={closeItemModal}
     />
   </Modal>

@@ -1,6 +1,6 @@
-from flask import Flask,jsonify,request
+from flask import jsonify,request
 from config import app
-from models import connect_db, User,Store,Item,db
+from models import connect_db, User,Store,Item,Expense,db
 
 
 @app.route("/auth/register",methods=["POST"])
@@ -21,9 +21,9 @@ def signup():
         return jsonify({"message":str(e)}),500
 
 
-
 @app.route("/stores",methods=["GET"])
 def get_stores():
+    print('stores')
     try:
         stores = Store.query.all()
         json_stores = [store.to_json() for store in stores]
@@ -92,9 +92,10 @@ def add_item(store_id):
     try:
         itemname = request.json.get("itemName") 
         quantity = request.json.get("quantity")
+        brand = request.json.get("brand")
         purpose = request.json.get("purpose")
         
-        new_item = Item(itemname=itemname,quantity = quantity,purpose=purpose,store_id=store_id)
+        new_item = Item(itemname=itemname,quantity = quantity, brand=brand, purpose=purpose,store_id=store_id)
     
         db.session.add(new_item)
         db.session.commit()
@@ -121,10 +122,11 @@ def deleteItem(store_id,item_id):
 @app.route("/expenses",methods=["POST"])
 def add_expense():
     try:
-        expense_name = request.json.get("expense_name")
+        print(request.json)
+        date = request.json.get("date")
         amount = request.json.get("amount")
         
-        new_expense = Expense(expense_name=expense_name,amount=amount)
+        new_expense = Expense(date=date,amount=amount)
         
         db.session.add(new_expense)
         db.session.commit()
@@ -132,10 +134,22 @@ def add_expense():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": str(e)}), 500
+    
+    
+@app.route("/expenses",methods=["GET"])
+def get_expenses():
+    try:
+        expenses = Expense.query.all()
+        json_expenses = [expense.to_json() for expense in expenses]
+        return jsonify({"expenses":json_expenses})
+    except Exception as e:
+        return jsonify({"message": str(e)}), 500
 
 if __name__ == "__main__":
+    print('main')
     connect_db(app)
     with app.app_context():
+        print('main2')
         db.create_all()
         
     app.run(debug=True)
