@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./StoreCard.css";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import ShoppingApi from "../api/api";
 import { Col, Row, Card, Modal } from "antd";
+import UserContext from "../UserContext";
 
 const StoreCard = ({ store, removeStore }) => {
+  const { dbUser } = useContext(UserContext);
+
   const handleDeleteStore = async (store) => {
     try {
-      await ShoppingApi.deleteStore(store.id);
+      await ShoppingApi.deleteStore(dbUser.id, store.id);
       removeStore(store.id);
     } catch (e) {
       console.log(e);
@@ -21,19 +24,9 @@ const StoreCard = ({ store, removeStore }) => {
   return (
     <div className="store-card-container">
       <Link className="store-card" to={`/stores/${id}/items`}>
-        <Card
-          bodyStyle={
-            {
-              // backgroundColor: "#443f3f",
-              // color: "white",
-              // paddingTop: 15,
-              // paddingRight: 15,
-            }
-          }
-        >
+        <Card>
           <Row justify="end" style={{ maxHeight: 30 }}>
             <Col>
-              {" "}
               <div
                 onClick={(e) => {
                   e.preventDefault();
@@ -42,9 +35,7 @@ const StoreCard = ({ store, removeStore }) => {
                     onOk() {
                       handleDeleteStore(store);
                     },
-                    onCancel() {
-                      console.log("Cancel");
-                    },
+                    onCancel() {},
                   });
                 }}
               >
@@ -62,7 +53,6 @@ const StoreCard = ({ store, removeStore }) => {
           </Row>
           <Row justify="center" style={{ maxHeight: 40 }}>
             <Col>
-              {" "}
               <h5>{location}</h5>
             </Col>
           </Row>

@@ -21,6 +21,14 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.add-item-form select {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .add-button {
   background-color: #94a017;
   color: white;
@@ -43,4 +51,10 @@
 }
 .input-txt {
   margin-left: 185px;
+}
+
+.category-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

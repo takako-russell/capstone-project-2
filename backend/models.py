@@ -1,63 +1,37 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.schema import ForeignKeyConstraint, PrimaryKeyConstraint
-from flask_bcrypt import Bcrypt
 from datetime import datetime
 
-bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
+        
 class User(db.Model):
-   
-    __tablename__="users"
-    
+    __tablename__ = "users"
     id = db.Column(db.Integer,primary_key=True,unique=True)
-    username = db.Column(db.String(20),nullable=False, unique=True)
-    password = db.Column(db.Text, nullable = False)
-    first_name=db.Column(db.String,nullable=False)
-    last_name=db.Column(db.String,nullable=False)
-    postal_code = db.Column(db.String,nullable=False)
+    email = db.Column(db.Text,nullable=False,unique=True)
+    external_id = db.Column(db.Text,nullable=True)
+    given_name = db.Column(db.Text,nullable=False)
+    family_name = db.Column(db.Text,nullable=False)
     
-    email = db.Column(db.String(50), nullable=False)
-    
-    @classmethod
-    def signup(cls,username, password, first_name,last_name, postal_code,email):
-        hashed = bcrypt.generate_password_hash(password).decode("utf8")
-      
-        
-        user = cls(
-                username=username,
-                password=hashed,
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                postal_code=postal_code
-            )
-        
-        db.session.add(user)    
-        return user
-    
-    
-    @classmethod
-    def authenticate(cls,username,password):
-        
-        user = User.query.filter_by(username = username).first()
-        
-        if user and bcrypt.check_password_hash(user.password,password):
-            return user
-        else:
-            return False
-        
-        
     def to_json(self):
         return {
             "id": self.id,
-            "username": self.username,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
             "email": self.email,
-            "postal_code": self.postal_code
+            "externalId": self.external_id,
+            "givenName": self.given_name,
+            "familyName": self.family_name
         }
+    
+    @classmethod
+    def addUser(cls, external_id, email, given_name, family_name):
+        user = cls(
+            external_id=external_id,
+            email=email,
+            given_name=given_name,
+            family_name=family_name
+        )
+        return user
+    
         
 
 class Store(db.Model):
@@ -67,13 +41,16 @@ class Store(db.Model):
     id = db.Column(db.Integer,primary_key=True) 
     storename = db.Column(db.Text,nullable=False)
     location = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     store_items = db.relationship('Item', cascade='all,delete-orphan')
+    expenses = db.relationship('Expense', back_populates='store', lazy='dynamic')
     
     def to_json(self):
         return {
             "id":self.id,
             "storeName": self.storename,
-            "location":self.location
+            "location":self.location,
+            "userId": self.user_id
         }
     
     
@@ -86,7 +63,9 @@ class Item(db.Model):
     quantity = db.Column(db.Integer)
     brand = db.Column(db.String)
     purpose = db.Column(db.String)
+    price = db.Column(db.Integer)
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     
     def to_json(self):
         return {
@@ -95,6 +74,8 @@ class Item(db.Model):
             "quantity":self.quantity,
             "brand":self.brand,
             "purpose":self.purpose,
+            "price":self.price,
+            "category_id":self.category_id
         }
     
     
@@ -104,13 +85,36 @@ class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     amount = db.Column(db.Integer, nullable=False)
+    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'), nullable=False)
+    store = db.relationship('Store', back_populates='expenses')
+    
     
     def to_json(self):
         return {
             "id":self.id,
             "date":self.date,
-            "amount":self.amount
+            "amount":self.amount,
+            "store_id": self.store_id,
+            "store_name": self.store.storename if self.store else None
         }
+        
+        
+class Category(db.Model):
+    """Categories"""
+    __tablename__ = "categories"
+    id = db.Column(db.Integer, primary_key=True)
+    ordernumber = db.Column(db.Integer)
+    category = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    items = db.relationship('Item', cascade='all,delete-orphan')
+    
+    def to_json(self):
+        return {
+            "id":self.id,
+            "category":self.category,
+            "ordernumber":self.ordernumber
+        }
+ 
  
 def connect_db(app):
     """Connect this database to provided Flask app"""

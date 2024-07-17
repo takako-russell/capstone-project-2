@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import { LineChart, axisClasses } from "@mui/x-charts";
 import ShoppingApi from "../api/api";
+import UserContext from "../UserContext";
 
-const generateMonthlyExpenses = async () => {
-  let expenses = await ShoppingApi.getAllExpenses();
-  console.log(expenses);
+const generateMonthlyExpenses = async (userId) => {
+  let expenses = await ShoppingApi.getAllExpenses(userId);
+  let currYear = new Date().getFullYear();
+  expenses = expenses.filter(
+    (expense) => new Date(expense.date).getFullYear() === currYear
+  );
+
   const monthlySums = {};
 
   expenses.forEach((expense) => {
@@ -20,52 +25,59 @@ const generateMonthlyExpenses = async () => {
     }
 
     monthlySums[key] += expense.amount;
-    console.log(monthlySums);
+    for (let i = 0; i < 12; i++) {
+      if (!monthlySums[`${currYear}-${i}`]) {
+        monthlySums[`${currYear}-${i}`] = 0;
+      }
+    }
   });
   return monthlySums;
 };
 
 const convertToChartData = (monthlySums) => {
-  const data = [];
-
   return Object.keys(monthlySums).map((key) => {
     const [year, month] = key.split("-");
     return {
-      month: new Date(year, month).toLocaleString("default", { month: "long" }),
+      month: new Date(year, month).toLocaleString("default", {
+        month: "short",
+      }),
       year: parseInt(year),
       amount: monthlySums[key],
     };
   });
 };
 
-// const data = [
-//   createData("Jan", 1200),
-//   createData("Feb", 1300),
-//   createData("Mar", 1600),
-//   createData("April", 1800),
-//   createData("May", 1500),
-//   createData("Jun", 2000),
-//   createData("July", 1500),
-//   createData("Aug", 1300),
-//   createData("Sep", 1500),
-//   createData("Oct", 1500),
-//   createData("Nov", 1300),
-//   createData("Dec", 1800),
-// ];
-
 export default function Chart() {
   const theme = useTheme();
   const [monthlyExpenses, setMonthlyExpenses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { dbUser } = useContext(UserContext);
 
   useEffect(() => {
-    const expenses = generateMonthlyExpenses();
-    const chartData = convertToChartData(expenses);
-    setMonthlyExpenses(chartData);
+    async function fetchData() {
+      try {
+        const expenses = await generateMonthlyExpenses(dbUser.id);
+
+        const chartData = convertToChartData(expenses);
+        setMonthlyExpenses(chartData);
+      } catch (err) {
+        console.error("Error fetching expenses:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (monthlyExpenses.length === 0)
+    return <div>No expenses data available</div>;
 
   return (
     <React.Fragment>
-      {/* <Title>Today</Title> */}
       <div
         style={{
           width: "100%",
@@ -87,13 +99,14 @@ export default function Chart() {
           xAxis={[
             {
               scaleType: "point",
-              dataKey: "time",
+              dataKey: "month",
               tickNumber: 2,
               tickLabelStyle: theme.typography.body2,
             },
           ]}
           yAxis={[
             {
+              dataKey: "amount",
               label: "Expense ($)",
               labelStyle: {
                 ...theme.typography.body1,

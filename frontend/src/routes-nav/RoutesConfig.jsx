@@ -2,43 +2,40 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import RoutesOverride from "./Routes";
 import StoreList from "../store/StoreList";
-import { Space, Button } from "antd";
-import AddStoreForm from "../store/AddStoreForm";
 
 const RoutesConfig = ({
   stores,
   searchStores,
   removeStore,
   addStore,
-  addExpense,
+  setExpense,
 }) => (
   <Routes>
     <Route
-      index // This is the index route ("localhost:5000/ etc")
+      index
       element={
         <StoreList
           stores={stores}
           searchStores={searchStores}
           removeStore={removeStore}
           addStore={addStore}
-          addExpense={addExpense}
+          setExpense={setExpense}
         />
       }
     />
     <Route
-      path="/stores" // This is the stores route ("localhost:5000/stores")
+      path="/stores"
       element={
         <StoreList
           stores={stores}
           searchStores={searchStores}
           removeStore={removeStore}
           addStore={addStore}
-          addExpense={addExpense}
+          setExpense={setExpense}
         />
       }
     />
-    <Route path="/*" element={<RoutesOverride />} /> // This is a catch-all
-    route for any other route that is not defined
+    <Route path="/*" element={<RoutesOverride />} />
   </Routes>
 );
 

@@ -5,7 +5,7 @@ import AddStoreForm from "./AddStoreForm";
 const StoreModal = ({
   isStoreModalOpen,
   closeStoreModal,
-  addStore,
+  setStore,
   searchStores,
 }) => (
   <Modal
@@ -16,8 +16,8 @@ const StoreModal = ({
   >
     <AddStoreForm
       addStore={(newStore) => {
-        addStore(newStore);
-        searchStores(); // Refresh the /stores list
+        setStore(newStore);
+        searchStores();
       }}
       closeModal={closeStoreModal}
     />

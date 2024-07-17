@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ShoppingApi from "../api/api";
-import AddItemForm from "./AddItemForm";
 import "./ItemList.css";
-import { Col, Divider, Row } from "antd";
+import { Col, Row } from "antd";
 import { Space, Button } from "antd";
 import ItemModal from "./ItemModal";
-import { CloseCircleOutlined } from "@ant-design/icons";
+
+import { Table } from "antd";
+import UserContext from "../UserContext";
 
 function ItemList() {
   const { storeId } = useParams();
-  console.log(storeId);
   const [items, setItems] = useState([]);
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+  const [categories, setCategories] = useState({});
+  const { dbUser } = useContext(UserContext);
 
   useEffect(() => {
     async function getListOfItems() {
-      const items = await ShoppingApi.getItems(storeId);
+      const itemData = await ShoppingApi.getItems(dbUser.id, storeId);
+      const fetchedCategories = await ShoppingApi.getCategories(dbUser.id);
+
+      const items = itemData.map((item) => ({
+        ...item,
+        key: item.id,
+      }));
+
+      const categoryMap = {};
+      fetchedCategories.forEach((cat) => {
+        categoryMap[cat.id] = {
+          name: cat.category,
+          ordernumber: cat.ordernumber,
+        };
+      });
+
+      setCategories(categoryMap);
       setItems(items);
     }
     getListOfItems();
@@ -24,7 +42,7 @@ function ItemList() {
 
   const handleDeleteItem = async (itemId) => {
     try {
-      await ShoppingApi.deleteItem(storeId, itemId);
+      await ShoppingApi.deleteItem(dbUser.id, storeId, itemId);
       setItems((items) => items.filter((i) => i.id !== itemId));
     } catch (error) {
       console.log(error);
@@ -41,26 +59,69 @@ function ItemList() {
   const handleAddItem = (newItem) => {
     setItems((items) => [...items, newItem]);
     closeItemModal();
-    console.log("handled add item:", items);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("handled submit:", e);
-  };
-  const handleChange = (e) => {
-    console.log("handled change:", e);
-  };
+  const columns = [
+    {
+      title: "Item Name",
+      dataIndex: "itemName",
+      key: "itemname",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+    },
+    {
+      title: "Brand",
+      dataIndex: "brand",
+      key: "brand",
+    },
+    {
+      title: "Purpose",
+      dataIndex: "purpose",
+      key: "purpose",
+    },
+    {
+      title: "Category",
+      dataIndex: "category_id",
+      key: "category",
+      render: (category_id) => categories[category_id].name || "",
+      sorter: (a, b) => {
+        const orderA = categories[a.category_id]?.ordernumber || 0;
+        const orderB = categories[b.category_id]?.ordernumber || 0;
+        return orderA - orderB;
+      },
+      sortDirections: ["ascend", "descend"],
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Action",
+      dataIndex: "",
+      key: "x",
+      render: (_, record) => (
+        <Button onClick={() => handleDeleteItem(record.id)} type="link" danger>
+          Delete
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <div className="background-item-list">
-      <Space>
-        <Button type="link" onClick={openItemModal}>
-          Add Item
-        </Button>
-      </Space>
-      {/* <button onClick={openItemModal}>Add item</button>
-       */}
+      <Row>
+        <Col push={17}>
+          <Button type="link" onClick={openItemModal}>
+            Add Item
+          </Button>
+        </Col>
+        <Space></Space>
+      </Row>
+
       <ItemModal
         isItemModalOpen={isItemModalOpen}
         closeItemModal={closeItemModal}
@@ -68,89 +129,21 @@ function ItemList() {
         storeId={storeId}
       />
 
-      {/* {isItemModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeItemModal}>
-              &times;
-            </span>
-            <AddItemForm
-              storeId={storeId}
-              updateItems={handleAddItem}
-              closeModal={closeItemModal}
-            />
-          </div>
-        </div>
-      )} */}
-      <ul>
-        {items.length === 0 ? (
-          <p>NO items</p>
-        ) : (
-          items.map((i) => (
-            // <li key={i.id} className="item">
-            <Row key={i.id}>
-              <Col span={12} push={6} className="item">
-                <form onSubmit={handleSubmit}>
-                  <span className="item-details">
-                    <Row>
-                      <Col span={4} push={2}>
-                        <span>Name</span>
-                        <input
-                          type="text"
-                          className="item-name"
-                          name="itemName"
-                          value={i.itemName}
-                          onChange={handleChange}
-                        />
-                      </Col>
-                      <Col span={4}>
-                        <span>Quantity</span>
-                        <input
-                          type="text"
-                          className="item-quantity"
-                          name="quantity"
-                          value={i.quantity}
-                          onChange={handleChange}
-                        />
-                      </Col>
-                      <Col span={4}>
-                        <span>Brand:</span>
-                        <input
-                          type="text"
-                          className="item-brand"
-                          name="brand"
-                          value={i.brand}
-                          onChange={handleChange}
-                        />
-                      </Col>
-                      <Col span={4}>
-                        <span>for:</span>
-                        <input
-                          type="text"
-                          className="item-purpose"
-                          name="purpose"
-                          value={i.purpose}
-                          onChange={handleChange}
-                        />
-                      </Col>
-                      <Col span={4} offset={4}>
-                        <button
-                          type="button"
-                          className="item-delete"
-                          onClick={() => handleDeleteItem(i.id)}
-                        >
-                          <CloseCircleOutlined style={{ fontSize: "larger" }} />
-                        </button>
-                      </Col>
-                    </Row>
-                  </span>
-                </form>
-              </Col>
+      {items.length === 0 ? (
+        <Row>
+          <Col span={12} push={6} className="item">
+            <Row>
+              <Col push={11}>No items</Col>
             </Row>
-            // </li>
-          ))
-        )}
-      </ul>
+          </Col>
+        </Row>
+      ) : (
+        <Row>
+          <Col span={12} push={6} className="item">
+            <Table columns={columns} dataSource={items} rowKey="item" />
+          </Col>
+        </Row>
+      )}
     </div>
   );
 }

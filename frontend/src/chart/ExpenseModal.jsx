@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "antd";
 import ExpenseForm from "./ExpenseForm";
 
 const ExpenseModal = ({
   isExpenseModalOpen,
   closeExpenseModal,
-  addExpense,
+  setExpenseToState,
 }) => (
   <Modal
     title="Add Expense"
@@ -14,7 +14,7 @@ const ExpenseModal = ({
     footer={null}
   >
     <ExpenseForm
-      addExpenseToState={addExpense}
+      setExpenseToState={setExpenseToState}
       closeModal={closeExpenseModal}
     />
   </Modal>

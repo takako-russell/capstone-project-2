@@ -1,0 +1,29 @@
+.edit-order-btn {
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  background-color: #94a017;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-order-btn:hover {
+  background-color: #517a9b;
+}
+
+.manage-categories-modal .ant-modal-content {
+  padding-bottom: 60px;
+  padding-right: 80px;
+  border-radius: 8px;
+}
+
+.manage-categories-modal .ant-modal-body {
+  min-height: 300px;
+}
+
+.category .ant-table-wrapper {
+  margin-top: 20px;
+}

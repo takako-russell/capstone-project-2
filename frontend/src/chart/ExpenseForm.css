@@ -21,6 +21,13 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.expense-form select {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 .submit-button {
   background-color: #94a017;
   color: white;

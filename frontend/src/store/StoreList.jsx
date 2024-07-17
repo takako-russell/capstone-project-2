@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import StoreCard from "./StoreCard";
 import "./StoreList.css";
-import { Col, Divider, Row } from "antd";
+import { Col, Row } from "antd";
 import Chart from "../chart/Chart";
-import { Space, Button } from "antd";
+import { Button } from "antd";
 import ExpenseModal from "../chart/ExpenseModal";
 import StoreModal from "./StoreModal";
+import Calender from "../calender/Calender";
+import { NavLink } from "react-router-dom";
+import UserContext from "../UserContext";
 
 function StoreList({
   stores,
   searchStores,
   removeStore,
   addStore,
-  addExpense,
+  setExpense,
 }) {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
@@ -20,27 +23,25 @@ function StoreList({
   const closeExpenseModal = () => setIsExpenseModalOpen(false);
   const openStoreModal = () => setIsStoreModalOpen(true);
   const closeStoreModal = () => setIsStoreModalOpen(false);
+  const { dbUser, setDbUser } = useContext(UserContext);
+
+  console.log("user in StoreList:", dbUser);
 
   useEffect(function getListOfStores() {
     searchStores();
   }, []);
 
-  if (!stores || stores.length == 0) {
-    return <div>LOADING....</div>;
-  }
-
   function buildStoreCards() {
     let storeCards = [];
     if (stores && stores.length) {
       let cols = [];
-      // let row = <Row>{cols}</Row>;
 
       for (let i = 0; i < stores.length; i++) {
         const s = stores[i];
         if (i % 2 == 0) {
           cols = [];
           cols.push(
-            <Col span={12}>
+            <Col key={i} span={10}>
               <StoreCard key={s.id} store={s} removeStore={removeStore} />
             </Col>
           );
@@ -49,10 +50,9 @@ function StoreList({
               {cols}
             </Row>
           );
-          // row.key = i;
         } else {
           cols.push(
-            <Col span={12}>
+            <Col key={i + 1} span={10}>
               <StoreCard key={s.id} store={s} removeStore={removeStore} />
             </Col>
           );
@@ -65,7 +65,10 @@ function StoreList({
   return (
     <div className="container">
       <Row>
-        <Col span={10} offset={1}>
+        <Col style={{ fontSize: "15px", color: "gray" }} push={1} span={10}>
+          Welcome {dbUser.givenName}
+        </Col>
+        <Col span={10} offset={9}>
           <Button
             className="add-store-btn"
             type="primary"
@@ -76,20 +79,17 @@ function StoreList({
         </Col>
       </Row>
       <Row>
-        <Col span={12} gutter={20}>
+        <Col push={1} span={12} gutter={20}>
           <div className="store-list">
             {stores.length ? (
               <div className="store-list">{buildStoreCards()}</div>
             ) : (
-              // stores.map((s) => (
-              //   <StoreCard key={s.id} store={s} removeStore={removeStore} />
-              // ))
               <p>No stores found</p>
             )}
           </div>
         </Col>
-        {/* <div className="store-list">{buildStoreCards()}</div> */}
-        <Col span={9} offset={2} gutter={20}>
+
+        <Col span={10} offset={0} gutter={20}>
           <div className="chart-container">
             <Row>
               <Chart />
@@ -107,25 +107,30 @@ function StoreList({
               </Col>
 
               <Col span={11} offset={1}>
-                <Button
-                  className="add-expense-button-details"
-                  type="default"
-                  onClick={openExpenseModal}
-                >
-                  See Expense Details
-                </Button>
+                <NavLink to={"/expense-details"}>
+                  <Button
+                    className="add-expense-button-details"
+                    type="default"
+                    onClick={openExpenseModal}
+                  >
+                    See Expense Details
+                  </Button>
+                </NavLink>
               </Col>
+            </Row>
+            <Row style={{ marginTop: "70px" }}>
+              <Calender />
             </Row>
             <StoreModal
               isStoreModalOpen={isStoreModalOpen}
               closeStoreModal={closeStoreModal}
-              addStore={addStore}
+              setStore={addStore}
               searchStores={searchStores}
             />
             <ExpenseModal
               isExpenseModalOpen={isExpenseModalOpen}
               closeExpenseModal={closeExpenseModal}
-              addExpense={addExpense}
+              setExpenseToState={setExpense}
             />
           </div>
         </Col>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ShoppingApi from "../api/api";
 import "./AddStoreForm.css";
-import { Button, Modal } from "antd";
+import UserContext from "../UserContext";
 
 const AddStoreForm = ({ addStore, closeModal }) => {
   const initialState = {
@@ -10,6 +10,7 @@ const AddStoreForm = ({ addStore, closeModal }) => {
   };
 
   const [formData, setFormdata] = useState(initialState);
+  const { dbUser } = useContext(UserContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,8 +22,8 @@ const AddStoreForm = ({ addStore, closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { storeName, location } = formData;
-    let store = await ShoppingApi.createStore(formData);
+
+    let store = await ShoppingApi.createStore(dbUser.id, formData);
     addStore(store);
     setFormdata(initialState);
     closeModal();

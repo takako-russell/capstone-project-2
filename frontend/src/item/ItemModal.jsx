@@ -8,12 +8,7 @@ const ItemModal = ({
   addItemToState,
   storeId,
 }) => (
-  <Modal
-    title="Add Item"
-    open={isItemModalOpen}
-    onCancel={closeItemModal}
-    footer={null}
-  >
+  <Modal open={isItemModalOpen} onCancel={closeItemModal} footer={null}>
     <AddItemForm
       storeId={storeId}
       addItemToState={addItemToState}

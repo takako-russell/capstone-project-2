@@ -35,17 +35,26 @@
   color: red;
 }
 
+.ant-card-bordered {
+  border: 2px solid #477187;
+}
+.ant-card-body > .ant-row {
+  margin: 0px !important;
+}
+
 .store-card .ant-card-body {
-  background-color: #474c50;
-  color: white;
-  padding-top: 15px;
+  padding: 5px;
+  background-color: white;
+  height: 110px;
+  color: #477187;
+  padding-top: 5px;
   padding-right: 15px;
   border-radius: 6px;
 }
 .store-card .ant-card-body:hover {
-  background-color: #477187;
-  color: white;
-  padding-top: 15px;
-  padding-right: 15px;
-  border-radius: 8px;
+  background-color: white;
+  color: #3439dc;
+}
+.card-title {
+  font-size: 20px;
 }

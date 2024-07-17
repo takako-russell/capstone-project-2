@@ -1,13 +1,14 @@
 import React from "react";
-import { Router, Route, Routes } from "react-router-dom";
-import StoreList from "../store/StoreList";
-import StoreCard from "../store/StoreCard";
+import { Route, Routes } from "react-router-dom";
+
 import ItemList from "../item/ItemList";
+import ExpenseDetails from "../displayExpDetails/ExpenseDetails";
 
 function RoutesOverride() {
   return (
     <Routes>
       <Route path="/stores/:storeId/items" element={<ItemList />} />
+      <Route path="/expense-details" element={<ExpenseDetails />} />
     </Routes>
   );
 }

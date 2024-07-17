@@ -1,35 +1,12 @@
-/* .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  padding: 20px;
-}
-
-.store-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  width: 50%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.chart-container {
-  border-radius: 5px;
-  background-color: rgb(232, 202, 38);
-  width: 45%;
-  padding: 20px;
-  box-sizing: border-box;
-} */
 .container .ant-row {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 .add-store-btn {
-  background-color: #818989;
+  background-color: #477187;
   color: white;
 }
+
 .add-expense-button-add {
   width: 100%;
   margin-top: 40px;
@@ -47,11 +24,3 @@
   background-color: #477187;
   color: white;
 }
-/* .add-expense-button.add {
-  width: 100%;
-  margin-top: 40px;
-  height: 50px;
-  border-radius: 30px;
-  background-color: #598f8c;
-  color: #454343;
-} */
