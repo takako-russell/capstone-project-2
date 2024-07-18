@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.20",
     "@mui/system": "^5.15.20",
     "@mui/x-charts": "^7.7.1",
+    "@auth0/auth0-react": "*",
     "antd": "^5.18.3",
     "axios": "*",
     "react": "^18.2.0",
