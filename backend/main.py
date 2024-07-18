@@ -376,8 +376,7 @@ def editCategory(user, category_id):
 if __name__ == "__main__":
     print('main')
     connect_db(app)
-    with app.app_context():
-        print('main2')
-        db.create_all()
+    # with app.app_context():
+    #     # db.create_all()
         
     app.run(debug=True)
