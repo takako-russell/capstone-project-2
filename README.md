@@ -51,4 +51,6 @@ The user should create credentials or leverage Social Auth (such as sign-in with
 The user will then quietly be redirected to the in-app landing page where they may create/manage stores, items, categories.
 
 From an authorization perspective, nearly all API endpoints require two details 1) the access token (sent in Authorization header) is valid, 2) the user ID for the operation is the same user ID in the access token. This is facilitated by matching the token's `sid` (Auth0 ID) to the persisted user's `externalId` in the /Users table of the postgres database. Once this lookup is successful, the user (local to our database) ID is forwarded with all requests and the access token.
-ß
+
+##URL
+https://capstone-project-2-r1ou.onrender.com/
