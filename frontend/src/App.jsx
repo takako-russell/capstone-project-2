@@ -91,8 +91,13 @@ function AppContent() {
   const openStoreModal = () => setIsStoreModalOpen(true);
 
   async function searchStores() {
-    const stores = await ShoppingApi.getStores(dbUser.id);
-    setStores(stores);
+    try {
+      const stores = await ShoppingApi.getStores(dbUser.id);
+      setStores(stores || []);
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+      setStores([]);
+    }
   }
 
   const addStore = (newStore) => setStores((stores) => [...stores, newStore]);

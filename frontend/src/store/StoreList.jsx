@@ -19,6 +19,7 @@ function StoreList({
 }) {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const openExpenseModal = () => setIsExpenseModalOpen(true);
   const closeExpenseModal = () => setIsExpenseModalOpen(false);
   const openStoreModal = () => setIsStoreModalOpen(true);
@@ -31,7 +32,9 @@ function StoreList({
       "StoreList useEffect - dbUser:",
       dbUser,
       "isUserLoading:",
-      isUserLoading
+      isUserLoading,
+      "hasSearched:",
+      hasSearched
     );
     if (!isUserLoading && !dbUser) {
       console.log("Attempting to refresh user data");
@@ -39,8 +42,9 @@ function StoreList({
     } else if (!isUserLoading && dbUser) {
       console.log("User data available, searching stores");
       searchStores();
+      setHasSearched(true);
     }
-  }, [isUserLoading, dbUser, searchStores, refreshUser]);
+  }, [isUserLoading, dbUser, searchStores, hasSearched, refreshUser]);
 
   if (isUserLoading) {
     return <div>Loading user data...</div>;
