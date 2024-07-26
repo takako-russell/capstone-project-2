@@ -1,3 +1,4 @@
+import os
 from flask import jsonify,request
 from config import app
 from models import connect_db, User,Store,Item,Expense,Category,db
@@ -374,9 +375,10 @@ def editCategory(user, category_id):
     
 
 if __name__ == "__main__":
-    print('main')
+    port = int(os.environ.get('PORT', 5000))
     connect_db(app)
+    
     # with app.app_context():
     #     # db.create_all()
         
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
