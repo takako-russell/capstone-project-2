@@ -10,6 +10,14 @@ from jose.exceptions import JWTError
 import requests
 
 
+try:
+    connect_db(app)
+except Exception as e:
+    print(f"Error connecting to database: {e}")
+    import sys
+    sys.exit(1)
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
@@ -376,5 +384,4 @@ def editCategory(user, category_id):
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 10000))
-    connect_db(app)
     app.run(host='0.0.0.0', port=port)
