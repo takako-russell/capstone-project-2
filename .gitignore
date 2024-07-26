@@ -1,3 +1,5 @@
+frontend/.env
+frontend/.eslintrc.cjs
 /backend/.venv/
 .vscode/
 # Logs

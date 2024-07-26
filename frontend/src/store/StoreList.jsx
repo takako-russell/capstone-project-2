@@ -23,13 +23,32 @@ function StoreList({
   const closeExpenseModal = () => setIsExpenseModalOpen(false);
   const openStoreModal = () => setIsStoreModalOpen(true);
   const closeStoreModal = () => setIsStoreModalOpen(false);
-  const { dbUser, setDbUser } = useContext(UserContext);
 
-  console.log("user in StoreList:", dbUser);
+  const { dbUser, isUserLoading, refreshUser } = useContext(UserContext);
 
-  useEffect(function getListOfStores() {
-    searchStores();
-  }, []);
+  useEffect(() => {
+    console.log(
+      "StoreList useEffect - dbUser:",
+      dbUser,
+      "isUserLoading:",
+      isUserLoading
+    );
+    if (!isUserLoading && !dbUser) {
+      console.log("Attempting to refresh user data");
+      refreshUser();
+    } else if (!isUserLoading && dbUser) {
+      console.log("User data available, searching stores");
+      searchStores();
+    }
+  }, [isUserLoading, dbUser, searchStores, refreshUser]);
+
+  if (isUserLoading) {
+    return <div>Loading user data...</div>;
+  }
+
+  if (!dbUser) {
+    return <div>Loading user data. Please wait...</div>;
+  }
 
   function buildStoreCards() {
     let storeCards = [];
@@ -66,7 +85,7 @@ function StoreList({
     <div className="container">
       <Row>
         <Col style={{ fontSize: "15px", color: "gray" }} push={1} span={10}>
-          Welcome {dbUser.givenName}
+          Welcome {dbUser.givenName ? dbUser.givenName : dbUser.email}
         </Col>
         <Col span={10} offset={9}>
           <Button

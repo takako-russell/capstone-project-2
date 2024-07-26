@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { useLocation, Routes, Route, Navigate } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, Row, Col, Button } from "antd";
 import ShoppingApi from "./api/api";
 import RoutesConfig from "./routes-nav/RoutesConfig";
 import Navbar from "./routes-nav/Navbar";
@@ -8,7 +8,6 @@ import BannerTextRow from "./BannerTextRow";
 import Auth0ProviderWithHistory from "./Auth0ProviderWithHistory";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
-import { Row, Col, Button } from "antd";
 import UserContext from "./UserContext";
 
 const { Content } = Layout;
@@ -40,32 +39,40 @@ function UserProvider({ children }) {
   const [dbUser, setDbUser] = useState(null);
   const [isUserLoading, setIsUserLoading] = useState(true);
 
-  useEffect(() => {
-    async function getOrCreateUserAfterAuth() {
-      if (isAuthenticated && user) {
-        setIsUserLoading(true);
-
+  const fetchUser = useCallback(async () => {
+    if (isAuthenticated && user) {
+      setIsUserLoading(true);
+      try {
         ShoppingApi.setToken(await getAccessTokenSilently());
-        try {
-          let localUser = await ShoppingApi.getAuthdUser(user.email);
-          if (!localUser) {
-            localUser = await ShoppingApi.createNewAuthdUser(user);
-          }
-          setDbUser(localUser);
-        } catch (error) {
-        } finally {
-          setIsUserLoading(false);
+        let localUser = await ShoppingApi.getAuthdUser(user.email);
+        if (!localUser) {
+          localUser = await ShoppingApi.createNewAuthdUser(user);
         }
+        setDbUser(localUser);
+      } catch (error) {
+        // Consider adding a user-friendly error handling here if needed
+      } finally {
+        setIsUserLoading(false);
       }
+    } else {
+      setIsUserLoading(false);
     }
+  }, [isAuthenticated, user, getAccessTokenSilently]);
 
-    if (isAuthenticated && user && !dbUser) {
-      getOrCreateUserAfterAuth();
+  useEffect(() => {
+    if (!isLoading) {
+      fetchUser();
     }
-  }, [isAuthenticated, user]);
+  }, [isLoading, fetchUser]);
+
+  const refreshUser = useCallback(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   return (
-    <UserContext.Provider value={{ dbUser, setDbUser, isUserLoading }}>
+    <UserContext.Provider
+      value={{ dbUser, setDbUser, isUserLoading, refreshUser }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -154,7 +161,6 @@ function PublicHomePage() {
   const { loginWithRedirect } = useAuth0();
   const getOrPersistUser = async () => {
     await loginWithRedirect();
-    // let user = useAuth0().user;
   };
 
   return (
@@ -178,21 +184,22 @@ function PublicHomePage() {
           style={{
             border: "1px solid #ccc",
             padding: "120px",
-            paddingTop: "200px",
-            paddingBottom: "200px",
             borderRadius: "5px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Button
             type="primary"
             onClick={() => getOrPersistUser()}
-            style={{ margin: "20px", padding: "30px" }}
+            style={{ fontSize: "18px", padding: "12px 24px", height: "auto" }}
           >
-            Log In
+            Log In / Sign Up
           </Button>
-          <Button type="default" style={{ margin: "20px", padding: "30px" }}>
-            Sign Up
-          </Button>
+          <p style={{ marginTop: "20px", textAlign: "center" }}>
+            Click to log in or create a new account
+          </p>
         </div>
       </Col>
     </Row>

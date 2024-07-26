@@ -15,6 +15,9 @@ class ShoppingApi {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       if (err.response) {
+        if (err.response.status == "404") {
+          return "NOT_FOUND";
+        }
         console.error("API Error:", err.response.data);
         throw new Error(
           `API Error: ${err.response.status} - ${
@@ -45,11 +48,15 @@ class ShoppingApi {
 
       return res.user;
     } catch (ex) {
-      return null;
+      if (ex == "NOT_FOUND") {
+        return null;
+      }
     }
+    return null;
   }
 
   static async createNewAuthdUser(user) {
+    console.log(user);
     const userPayload = {
       external_id: user.sub,
       email: user.email,
