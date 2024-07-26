@@ -43,14 +43,16 @@ function UserProvider({ children }) {
     if (isAuthenticated && user) {
       setIsUserLoading(true);
       try {
-        ShoppingApi.setToken(await getAccessTokenSilently());
+        const token = await getAccessTokenSilently();
+        ShoppingApi.setToken(token);
         let localUser = await ShoppingApi.getAuthdUser(user.email);
         if (!localUser) {
           localUser = await ShoppingApi.createNewAuthdUser(user);
         }
         setDbUser(localUser);
       } catch (error) {
-        // Consider adding a user-friendly error handling here if needed
+        console.error("Error fetching user:", error);
+        // Consider adding user-friendly error handling here
       } finally {
         setIsUserLoading(false);
       }

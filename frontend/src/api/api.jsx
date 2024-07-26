@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = process.env.BACKEND_URL || "http://localhost:5000";
+const BASE_URL =
+  process.env.BACKEND_URL || "https://capstone-project-2-api.onrender.com";
 const token = null;
 
 class ShoppingApi {
