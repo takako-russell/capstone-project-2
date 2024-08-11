@@ -42,6 +42,7 @@ function StoreList({
     } else if (!isUserLoading && dbUser) {
       console.log("User data available, searching stores");
       searchStores();
+      console.log("search did not go well");
       setHasSearched(true);
     }
   }, [isUserLoading, dbUser, searchStores, hasSearched, refreshUser]);
