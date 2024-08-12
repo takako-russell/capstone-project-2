@@ -26,29 +26,27 @@ const EditCategoryForm = ({ onFinish }) => {
       message.error("Failed to fetch categories");
     }
   };
-  const handleOrderChange = async (id, value) => {
+  const handleOrderChange = async (categoryId, value) => {
     try {
-      console.log(`Updating category ${id} with order ${value}`);
-      const response = await ShoppingApi.updateCategoryOrder(id, value);
+      console.log(`Updating category ${categoryId} with order ${value}`);
+      const response = await ShoppingApi.updateCategoryOrder(
+        dbUser.id,
+        categoryId,
+        value
+      );
       console.log("Server response:", response);
 
       setCategories((prevCategories) =>
         prevCategories.map((cat) =>
-          cat.id === id ? { ...cat, ordernumber: value } : cat
+          cat.id === categoryId ? { ...cat, ordernumber: value } : cat
         )
       );
     } catch (error) {
       console.error("Error updating category order:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        console.error("Response headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
       message.error(`Failed to update category order: ${error.message}`);
+
+      // Revert the change in the UI
+      setCategories((prevCategories) => [...prevCategories]);
     }
   };
   // const handleOrderChange = async (id, value) => {

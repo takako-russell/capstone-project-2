@@ -163,13 +163,30 @@ class ShoppingApi {
   }
 
   static async updateCategoryOrder(userId, categoryId, orderNumber) {
-    let res = await this.request(
-      `categories/${categoryId}`,
-      { user_id: userId, ordernumber: orderNumber },
-      "PATCH"
+    console.log(
+      `Updating category ${categoryId} with order ${orderNumber} for user ${userId}`
     );
-    return res.category;
+    try {
+      let res = await this.request(
+        `categories/${categoryId}`,
+        { user_id: userId, ordernumber: orderNumber },
+        "PATCH"
+      );
+      console.log("Update category order response:", res);
+      return res.category;
+    } catch (err) {
+      console.error("Error in updateCategoryOrder:", err);
+      throw err;
+    }
   }
+  // static async updateCategoryOrder(userId, categoryId, orderNumber) {
+  //   let res = await this.request(
+  //     `categories/${categoryId}`,
+  //     { user_id: userId, ordernumber: orderNumber },
+  //     "PATCH"
+  //   );
+  //   return res.category;
+  // }
 }
 
 export default ShoppingApi;
