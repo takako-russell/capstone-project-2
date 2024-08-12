@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import StoreCard from "./StoreCard";
 import "./StoreList.css";
 import { Col, Row } from "antd";
