@@ -19,7 +19,7 @@ class ShoppingApi {
         if (err.response.status == "404") {
           return "NOT_FOUND";
         }
-        console.error("API Error:", err.response.data);
+
         throw new Error(
           `API Error: ${err.response.status} - ${
             err.response.data.message || err.response.data.error
@@ -57,7 +57,6 @@ class ShoppingApi {
   }
 
   static async createNewAuthdUser(user) {
-    console.log(user);
     const userPayload = {
       external_id: user.sub,
       email: user.email,
@@ -163,30 +162,18 @@ class ShoppingApi {
   }
 
   static async updateCategoryOrder(userId, categoryId, orderNumber) {
-    console.log(
-      `Updating category ${categoryId} with order ${orderNumber} for user ${userId}`
-    );
     try {
       let res = await this.request(
         `categories/${categoryId}`,
         { user_id: userId, ordernumber: orderNumber },
         "PATCH"
       );
-      console.log("Update category order response:", res);
+
       return res.category;
     } catch (err) {
-      console.error("Error in updateCategoryOrder:", err);
       throw err;
     }
   }
-  // static async updateCategoryOrder(userId, categoryId, orderNumber) {
-  //   let res = await this.request(
-  //     `categories/${categoryId}`,
-  //     { user_id: userId, ordernumber: orderNumber },
-  //     "PATCH"
-  //   );
-  //   return res.category;
-  // }
 }
 
 export default ShoppingApi;

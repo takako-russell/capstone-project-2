@@ -1,11 +1,8 @@
 import React from "react";
 import { Modal } from "antd";
 import EditCategoryForm from "./EditCategoryForm";
-// import AddCategoryForm from "./AddCategoryForm";
 
 const ManageCategoriesModal = ({ isOpen, onClose }) => {
-  //   const [showAddForm, setShowAddForm] = useState(false);
-
   const handleFinish = (updatedCategories) => {
     console.log(
       "All categories with updated order numbers:",
@@ -13,11 +10,6 @@ const ManageCategoriesModal = ({ isOpen, onClose }) => {
     );
     onClose();
   };
-
-  //   const handleAddCategory = () => {
-
-  //     setShowAddForm(false);
-  //   };
 
   return (
     <Modal

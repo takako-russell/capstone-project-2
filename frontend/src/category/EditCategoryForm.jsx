@@ -34,7 +34,6 @@ const EditCategoryForm = ({ onFinish }) => {
         categoryId,
         value
       );
-      console.log("Server response:", response);
 
       setCategories((prevCategories) =>
         prevCategories.map((cat) =>
@@ -42,25 +41,12 @@ const EditCategoryForm = ({ onFinish }) => {
         )
       );
     } catch (error) {
-      console.error("Error updating category order:", error);
       message.error(`Failed to update category order: ${error.message}`);
 
       // Revert the change in the UI
       setCategories((prevCategories) => [...prevCategories]);
     }
   };
-  // const handleOrderChange = async (id, value) => {
-  //   try {
-  //     await ShoppingApi.updateCategoryOrder(id, value);
-  //     setCategories((prevCategories) =>
-  //       prevCategories.map((cat) =>
-  //         cat.id === id ? { ...cat, ordernumber: value } : cat
-  //       )
-  //     );
-  //   } catch (error) {
-  //     message.error("Failed to update category order");
-  //   }
-  // };
 
   const handleSubmit = () => {
     onFinish(categories);

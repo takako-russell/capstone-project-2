@@ -5,7 +5,6 @@ import StoreList from "../store/StoreList";
 
 const RoutesConfig = React.memo(
   ({ stores, searchStores, removeStore, addStore, setExpense }) => {
-    console.log("RoutesConfig rendered");
     return (
       <Routes>
         <Route

@@ -107,16 +107,6 @@ function AppContent() {
     }
   }, [dbUser]);
 
-  // async function searchStores() {
-  //   try {
-  //     const stores = await ShoppingApi.getStores(dbUser.id);
-  //     setStores(stores || []);
-  //   } catch (error) {
-  //     console.error("Error fetching stores:", error);
-  //     setStores([]);
-  //   }
-  // }
-
   const addStore = (newStore) => setStores((stores) => [...stores, newStore]);
   const removeStore = (deletedId) =>
     setStores((stores) => stores.filter((s) => s.id !== deletedId));

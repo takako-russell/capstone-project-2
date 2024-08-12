@@ -45,18 +45,7 @@ function StoreList({
     } else {
       fetchStores();
     }
-    // fetchStores();
   }, [isUserLoading, dbUser, fetchStores, refreshUser]);
-  //   if (!isUserLoading && !dbUser) {
-  //     console.log("Attempting to refresh user data");
-  //     refreshUser();
-  //   } else if (!isUserLoading && dbUser) {
-  //     console.log("User data available, searching stores");
-  //     searchStores();
-  //     console.log("search did not go well");
-  //     setHasSearched(true);
-  //   }
-  // }, [isUserLoading, dbUser, searchStores, hasSearched, refreshUser]);
 
   if (isUserLoading) {
     return <div>Loading user data...</div>;
