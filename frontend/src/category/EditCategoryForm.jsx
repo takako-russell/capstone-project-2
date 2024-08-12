@@ -82,7 +82,7 @@ const EditCategoryForm = ({ onFinish }) => {
           </Button>
         </Form.Item>
       </Form>
-      {showAddForm && <AddCategoryForm onAddCategory={fetchCategories} />}
+      {showAddForm && <AddCategoryForm addCategoryToState={fetchCategories} />}
     </div>
   );
 };

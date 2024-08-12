@@ -15,12 +15,16 @@ const AddCategoryForm = ({ addCategoryToState, closeModal }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let category = await ShoppingApi.addCategory(dbUser.id, formData);
-    addCategoryToState(category);
-    setFormdata({ name: "" });
-    closeModal();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      let category = await ShoppingApi.addCategory(dbUser.id, formData);
+      addCategoryToState(category);
+      setFormdata({ name: "" });
+      closeModal();
+    } catch (error) {
+      console.error("Error submitting category form:", error);
+    }
   };
 
   return (
