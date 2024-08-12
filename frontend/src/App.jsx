@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { Layout, Row, Col, Button } from "antd";
 import ShoppingApi from "./api/api";
@@ -40,6 +40,7 @@ function UserProvider({ children }) {
   const [isUserLoading, setIsUserLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
+    console.log("fetchUser called");
     if (isAuthenticated && user) {
       setIsUserLoading(true);
       try {
@@ -52,6 +53,7 @@ function UserProvider({ children }) {
         setDbUser(localUser);
       } catch (error) {
         console.error("Error fetching user:", error);
+
         // Consider adding user-friendly error handling here
       } finally {
         setIsUserLoading(false);
@@ -62,6 +64,7 @@ function UserProvider({ children }) {
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
   useEffect(() => {
+    console.log("UserProvider useEffect triggered");
     if (!isLoading) {
       fetchUser();
     }
@@ -90,15 +93,29 @@ function AppContent() {
 
   const openStoreModal = () => setIsStoreModalOpen(true);
 
-  async function searchStores() {
-    try {
-      const stores = await ShoppingApi.getStores(dbUser.id);
-      setStores(stores || []);
-    } catch (error) {
-      console.error("Error fetching stores:", error);
-      setStores([]);
+  const searchStores = useCallback(async () => {
+    console.log("searchStores called in App.jsx");
+    if (dbUser) {
+      try {
+        const fetchedStores = await ShoppingApi.getStores(dbUser.id);
+        console.log("Fetched stores:", fetchedStores);
+        setStores(fetchedStores || []);
+      } catch (error) {
+        console.error("Error fetching stores:", error);
+        setStores([]);
+      }
     }
-  }
+  }, [dbUser]);
+
+  // async function searchStores() {
+  //   try {
+  //     const stores = await ShoppingApi.getStores(dbUser.id);
+  //     setStores(stores || []);
+  //   } catch (error) {
+  //     console.error("Error fetching stores:", error);
+  //     setStores([]);
+  //   }
+  // }
 
   const addStore = (newStore) => setStores((stores) => [...stores, newStore]);
   const removeStore = (deletedId) =>

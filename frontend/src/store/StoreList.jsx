@@ -19,7 +19,7 @@ function StoreList({
 }) {
   const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  // const [hasSearched, setHasSearched] = useState(false);
   const openExpenseModal = () => setIsExpenseModalOpen(true);
   const closeExpenseModal = () => setIsExpenseModalOpen(false);
   const openStoreModal = () => setIsStoreModalOpen(true);
@@ -27,25 +27,28 @@ function StoreList({
 
   const { dbUser, isUserLoading, refreshUser } = useContext(UserContext);
 
-  useEffect(() => {
-    console.log(
-      "StoreList useEffect - dbUser:",
-      dbUser,
-      "isUserLoading:",
-      isUserLoading,
-      "hasSearched:",
-      hasSearched
-    );
-    if (!isUserLoading && !dbUser) {
-      console.log("Attempting to refresh user data");
-      refreshUser();
-    } else if (!isUserLoading && dbUser) {
-      console.log("User data available, searching stores");
+  const fetchStores = useCallback(() => {
+    console.log("fetchStores called in StoreList");
+    if (!isUserLoading && dbUser) {
+      console.log("Conditions met, calling searchStores from fetchStores");
       searchStores();
-      console.log("search did not go well");
-      setHasSearched(true);
     }
-  }, [isUserLoading, dbUser, searchStores, hasSearched, refreshUser]);
+  }, [isUserLoading, dbUser, searchStores]);
+
+  useEffect(() => {
+    console.log("StoreList useEffect triggered");
+    fetchStores();
+  }, [fetchStores]);
+  //   if (!isUserLoading && !dbUser) {
+  //     console.log("Attempting to refresh user data");
+  //     refreshUser();
+  //   } else if (!isUserLoading && dbUser) {
+  //     console.log("User data available, searching stores");
+  //     searchStores();
+  //     console.log("search did not go well");
+  //     setHasSearched(true);
+  //   }
+  // }, [isUserLoading, dbUser, searchStores, hasSearched, refreshUser]);
 
   if (isUserLoading) {
     return <div>Loading user data...</div>;
