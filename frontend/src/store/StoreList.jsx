@@ -37,8 +37,16 @@ function StoreList({
 
   useEffect(() => {
     console.log("StoreList useEffect triggered");
-    fetchStores();
-  }, [fetchStores]);
+    console.log("isUserLoading:", isUserLoading);
+    console.log("dbUser:", dbUser);
+    if (!isUserLoading && !dbUser) {
+      console.log("Attempting to refresh user data");
+      refreshUser();
+    } else {
+      fetchStores();
+    }
+    // fetchStores();
+  }, [isUserLoading, dbUser, fetchStores, refreshUser]);
   //   if (!isUserLoading && !dbUser) {
   //     console.log("Attempting to refresh user data");
   //     refreshUser();
