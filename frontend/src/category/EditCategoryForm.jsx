@@ -82,7 +82,12 @@ const EditCategoryForm = ({ onFinish }) => {
           </Button>
         </Form.Item>
       </Form>
-      {showAddForm && <AddCategoryForm addCategoryToState={fetchCategories} />}
+      {showAddForm && (
+        <AddCategoryForm
+          addCategoryToState={fetchCategories}
+          closeModal={onFinish}
+        />
+      )}
     </div>
   );
 };
