@@ -9,6 +9,7 @@ import Auth0ProviderWithHistory from "./Auth0ProviderWithHistory";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import UserContext from "./UserContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -25,11 +26,13 @@ function PrivateRoute({ children }) {
 
 function App() {
   return (
-    <Auth0ProviderWithHistory>
-      <UserProvider>
-        <AppContent />
-      </UserProvider>
-    </Auth0ProviderWithHistory>
+    <Router>
+      <Auth0ProviderWithHistory>
+        <UserProvider>
+          <AppContent />
+        </UserProvider>
+      </Auth0ProviderWithHistory>
+    </Router>
   );
 }
 
