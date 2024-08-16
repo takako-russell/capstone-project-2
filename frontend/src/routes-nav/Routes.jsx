@@ -8,7 +8,7 @@ const RoutesConfig = React.memo(
   ({ stores, searchStores, removeStore, addStore, setExpense }) => {
     return (
       <Routes>
-        <Route
+        {/* <Route
           index
           element={
             <StoreList
@@ -19,8 +19,8 @@ const RoutesConfig = React.memo(
               setExpense={setExpense}
             />
           }
-        />
-        <Route path=":storeId/items" element={<ItemList />} />
+        /> */}
+        <Route path="stores/:storeId/items" element={<ItemList />} />
         <Route path="expense-details" element={<ExpenseDetails />} />
       </Routes>
     );

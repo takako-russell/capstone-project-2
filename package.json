@@ -3,5 +3,11 @@
     "@auth0/auth0-react": "^2.2.4",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp public/_redirects dist/_redirects",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   }
 }
