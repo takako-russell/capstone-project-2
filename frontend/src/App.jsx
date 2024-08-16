@@ -26,13 +26,11 @@ function PrivateRoute({ children }) {
 
 function App() {
   return (
-    <Router>
-      <Auth0ProviderWithHistory>
-        <UserProvider>
-          <AppContent />
-        </UserProvider>
-      </Auth0ProviderWithHistory>
-    </Router>
+    <Auth0ProviderWithHistory>
+      <UserProvider>
+        <AppContent />
+      </UserProvider>
+    </Auth0ProviderWithHistory>
   );
 }
 
