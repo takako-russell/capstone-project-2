@@ -137,21 +137,7 @@ function AppContent() {
               }
             />
             <Route
-              path="/stores"
-              element={
-                <PrivateRoute>
-                  <RoutesConfig
-                    stores={stores}
-                    searchStores={searchStores}
-                    addStore={addStore}
-                    removeStore={removeStore}
-                    setExpense={setExpense}
-                  />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="*"
+              path="/stores/*"
               element={
                 <PrivateRoute>
                   <RoutesConfig
