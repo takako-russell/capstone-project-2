@@ -20,7 +20,7 @@ const RoutesConfig = React.memo(
             />
           }
         /> */}
-        <Route path="stores/:storeId/items" element={<ItemList />} />
+        <Route path=":storeId/items" element={<ItemList />} />
         <Route path="expense-details" element={<ExpenseDetails />} />
       </Routes>
     );
