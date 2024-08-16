@@ -31,7 +31,9 @@ const RoutesConfig = React.memo(
             />
           }
         />
-        <Route path="/*" element={<RoutesOverride />} />
+        {/* <Route path="/*" element={<RoutesOverride />} /> */}
+        <Route path=":storeId/items" element={<ItemList />} />
+        <Route path="expense-details" element={<ExpenseDetails />} />
       </Routes>
     );
   }

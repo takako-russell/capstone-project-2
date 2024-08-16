@@ -9,7 +9,6 @@ import Auth0ProviderWithHistory from "./Auth0ProviderWithHistory";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./App.css";
 import UserContext from "./UserContext";
-import { BrowserRouter as Router } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -151,7 +150,7 @@ function AppContent() {
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/" />} />
+            {/* <Route path="*" element={<Navigate to="/" />} /> */}
           </Routes>
         </Content>
       </Layout>
