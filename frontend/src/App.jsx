@@ -150,6 +150,7 @@ function AppContent() {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Content>
       </Layout>
