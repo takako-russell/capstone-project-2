@@ -66,6 +66,7 @@ class ShoppingApi {
     };
 
     let res = await this.request("users", userPayload, "post");
+    return res.user;
   }
 
   static async getStores(userId) {

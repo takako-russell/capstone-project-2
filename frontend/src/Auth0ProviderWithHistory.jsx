@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Auth0ProviderWithHistory = ({ children }) => {
   const navigate = useNavigate();
-  const { user } = useAuth0();
+  // const { user } = useAuth0();
 
   const REACT_APP_AUTH0_DOMAIN = "dev-fhx1orey2iklk5am.us.auth0.com";
   const REACT_APP_AUTH0_CLIENT_ID = "sG8DQF3MDxhVwGMoUZAb6t0WGd0SpMnW";

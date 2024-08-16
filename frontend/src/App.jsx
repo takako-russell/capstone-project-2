@@ -44,11 +44,17 @@ function UserProvider({ children }) {
     if (isAuthenticated && user) {
       setIsUserLoading(true);
       try {
+        console.log("Attempting to get access token");
         const token = await getAccessTokenSilently();
+        console.log("Access token received");
         ShoppingApi.setToken(token);
+        console.log("Attempting to get authenticated user");
         let localUser = await ShoppingApi.getAuthdUser(user.email);
+        console.log("Authenticated user fetched:", localUser);
         if (!localUser) {
+          console.log("Creating new authenticated user");
           localUser = await ShoppingApi.createNewAuthdUser(user);
+          console.log("New user created:", localUser);
         }
         setDbUser(localUser);
       } catch (error) {
@@ -60,6 +66,7 @@ function UserProvider({ children }) {
       }
     } else {
       setIsUserLoading(false);
+      console.log("User not authenticated or user object not available");
     }
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
