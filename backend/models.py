@@ -65,7 +65,7 @@ class Item(db.Model):
     purpose = db.Column(db.String)
     price = db.Column(db.Integer)
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     
     def to_json(self):
         return {

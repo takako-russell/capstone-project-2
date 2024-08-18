@@ -59,7 +59,21 @@ function ItemList() {
   };
 
   const handleAddItem = (newItem) => {
-    setItems((items) => [...items, newItem]);
+    if (!newItem) {
+      console.error("Attempted to add undefined item");
+      return;
+    }
+
+    const validatedItem = {
+      ...newItem,
+      key: newItem.id || Date.now(),
+      category_id:
+        newItem.category_id && categories[newItem.category_id]
+          ? newItem.category_id
+          : null,
+    };
+    setItems((items) => [...items, validatedItem]);
+
     closeItemModal();
   };
 
@@ -88,10 +102,10 @@ function ItemList() {
       title: "Category",
       dataIndex: "category_id",
       key: "category",
-      render: (category_id) => categories[category_id].name || "",
+      render: (category_id) => categories[category_id]?.name || "Uncategorized",
       sorter: (a, b) => {
-        const orderA = categories[a.category_id]?.ordernumber || 0;
-        const orderB = categories[b.category_id]?.ordernumber || 0;
+        const orderA = categories[a.category_id]?.ordernumber ?? Infinity;
+        const orderB = categories[b.category_id]?.ordernumber ?? Infinity;
         return orderA - orderB;
       },
       sortDirections: ["ascend", "descend"],
@@ -142,7 +156,7 @@ function ItemList() {
       ) : (
         <Row>
           <Col span={12} push={6} className="item">
-            <Table columns={columns} dataSource={items} rowKey="item" />
+            <Table columns={columns} dataSource={items} rowKey="id" />
           </Col>
         </Row>
       )}

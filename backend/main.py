@@ -219,15 +219,15 @@ def add_item(user, store_id):
         validate_user(user, user_id)
         
         item_data = request.json.get('item_data')
-        print(item_data)
         itemname = item_data.get("itemName") 
         quantity = item_data.get("quantity")
         brand = item_data.get("brand")
         purpose = item_data.get("purpose")
         price = item_data.get("price")
-        category_id = int(item_data.get("category"))
-        
-        print(request.json)
+        # category_id = int(item_data.get("category"))
+        category = item_data.get("category")
+        category_id = int(category) if category is not None else None
+
         
         new_item = Item(itemname=itemname,quantity = quantity, brand=brand, purpose=purpose,store_id=store_id,category_id=category_id,price=price)
         print(new_item)
