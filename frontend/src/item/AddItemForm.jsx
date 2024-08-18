@@ -142,7 +142,7 @@ const AddItemForm = ({ storeId, addItemToState }) => {
               ))}
             </select>
 
-            <Button
+            {/* <Button
               type="text"
               icon={<PlusSquareOutlined />}
               onClick={(e) => {
@@ -150,7 +150,7 @@ const AddItemForm = ({ storeId, addItemToState }) => {
                 openCategoryModal();
               }}
               style={{ marginLeft: "10px", fontSize: "20px" }}
-            />
+            /> */}
           </div>
         </div>
 
