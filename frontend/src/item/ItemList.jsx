@@ -21,6 +21,8 @@ function ItemList() {
       const itemData = await ShoppingApi.getItems(dbUser.id, storeId);
       const fetchedCategories = await ShoppingApi.getCategories(dbUser.id);
 
+      console.log(`items fetched: ${itemData}`);
+
       const items = itemData.map((item) => ({
         ...item,
         key: item.id,

@@ -144,6 +144,20 @@ function AppContent() {
               }
             />
             <Route
+              path="/stores"
+              element={
+                <PrivateRoute>
+                  <RoutesConfig
+                    stores={stores}
+                    searchStores={searchStores}
+                    addStore={addStore}
+                    removeStore={removeStore}
+                    setExpense={setExpense}
+                  />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/stores/*"
               element={
                 <PrivateRoute>
@@ -157,7 +171,6 @@ function AppContent() {
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Content>
       </Layout>
