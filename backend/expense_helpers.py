@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from sqlalchemy import func, and_
 import calendar
-from models import db, Expense,Store  
+# from backend.test_main import db, Expense,Store
+from models import db, Expense, Store  
 
 def calculate_weekly_sums(user_id):
     today = datetime.now().date()

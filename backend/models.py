@@ -118,5 +118,17 @@ class Category(db.Model):
  
 def connect_db(app):
     """Connect this database to provided Flask app"""
-    db.app=app
+    db.app = app
     db.init_app(app)
+    
+    # Create all tables if they don't exist
+    with app.app_context():
+        try:
+            # Try to query the database, avoids edge case with remote db on Render
+            db.session.execute('SELECT 1')
+        except Exception as e:
+            print(f"Database connection error: {e}")
+            print("Attempting to create tables...")
+            db.create_all()
+        else:
+            print("Database connection successful")
