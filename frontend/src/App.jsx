@@ -3,6 +3,7 @@ import { useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { Layout, Row, Col, Button } from "antd";
 import ShoppingApi from "./api/api";
 import RoutesConfig from "./routes-nav/RoutesConfig";
+import ExpenseDetails from "./displayExpDetails/ExpenseDetails";
 import Navbar from "./routes-nav/Navbar";
 import BannerTextRow from "./BannerTextRow";
 import Auth0ProviderWithHistory from "./Auth0ProviderWithHistory";
@@ -168,6 +169,14 @@ function AppContent() {
                     removeStore={removeStore}
                     setExpense={setExpense}
                   />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/expense-details"
+              element={
+                <PrivateRoute>
+                  <ExpenseDetails />
                 </PrivateRoute>
               }
             />
