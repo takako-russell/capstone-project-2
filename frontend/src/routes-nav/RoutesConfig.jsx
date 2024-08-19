@@ -21,21 +21,8 @@ const RoutesConfig = React.memo(
             />
           }
         />
-        {/* <Route
-          path="/stores"
-          element={
-            <StoreList
-              stores={stores}
-              searchStores={searchStores}
-              removeStore={removeStore}
-              addStore={addStore}
-              setExpense={setExpense}
-            />
-          }
-        /> */}
-        {/* <Route path="/*" element={<RoutesOverride />} /> */}
+
         <Route path=":storeId/items" element={<ItemList />} />
-        {/* <Route path="expense-details" element={<ExpenseDetails />} /> */}
       </Routes>
     );
   }

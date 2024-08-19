@@ -19,14 +19,7 @@ const ManageCategoriesModal = ({ isOpen, onClose }) => {
       footer={null}
       width={800}
     >
-      {/* <EditCategoryForm onFinish={handleFinish} /> */}
-      {/* <Space direction="vertical" style={{ width: "100%" }}> */}
       <EditCategoryForm onFinish={handleFinish} />
-      {/* <Button typle="default" onClick={openAddForm}>
-          Add New Category
-        </Button>
-        {showAddForm && <AddCategoryForm onAddCategory={handleAddCategory} />} */}
-      {/* </Space> */}
     </Modal>
   );
 };

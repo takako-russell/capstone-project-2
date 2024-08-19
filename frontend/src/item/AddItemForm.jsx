@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import ShoppingApi from "../api/api";
 import "./AddItemForm.css";
-import { Button } from "antd";
-import { PlusSquareOutlined } from "@ant-design/icons";
 import CategoryModal from "../category/CategoryModal";
 import UserContext from "../UserContext";
 
@@ -56,9 +54,6 @@ const AddItemForm = ({ storeId, addItemToState }) => {
     addItemToState(res);
   };
 
-  const openCategoryModal = () => {
-    setIsCategoryModalOpen(true);
-  };
   const closeCategoryModal = () => setIsCategoryModalOpen(false);
 
   const addCategoryToState = (newCategory) => {
@@ -141,16 +136,6 @@ const AddItemForm = ({ storeId, addItemToState }) => {
                 </option>
               ))}
             </select>
-
-            {/* <Button
-              type="text"
-              icon={<PlusSquareOutlined />}
-              onClick={(e) => {
-                e.preventDefault();
-                openCategoryModal();
-              }}
-              style={{ marginLeft: "10px", fontSize: "20px" }}
-            /> */}
           </div>
         </div>
 

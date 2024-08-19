@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+from sqlalchemy import text
+
 db = SQLAlchemy()
 
 
@@ -125,7 +127,7 @@ def connect_db(app):
     with app.app_context():
         try:
             # Try to query the database, avoids edge case with remote db on Render
-            db.session.execute('SELECT 1')
+            db.session.execute(text('SELECT 1'))
         except Exception as e:
             print(f"Database connection error: {e}")
             print("Attempting to create tables...")

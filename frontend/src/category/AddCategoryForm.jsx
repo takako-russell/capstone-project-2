@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ShoppingApi from "../api/api";
 import "./AddCategoryForm.css";
 import UserContext from "../UserContext";
+import { Form } from "react-router-dom";
 
 const AddCategoryForm = ({ addCategoryToState, closeModal }) => {
   const [formData, setFormdata] = useState({ name: "" });
@@ -19,9 +20,9 @@ const AddCategoryForm = ({ addCategoryToState, closeModal }) => {
     event.preventDefault();
     try {
       let category = await ShoppingApi.addCategory(dbUser.id, formData);
-      addCategoryToState(category);
-      setFormdata({ name: "" });
+      setFormdata({ categoryName: "" });
       closeModal();
+      addCategoryToState(category);
     } catch (error) {
       console.error("Error submitting category form:", error);
     }

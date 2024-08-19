@@ -1,7 +1,6 @@
 import os
 from flask import jsonify,request
 from config import app
-# from backend.test_main import connect_db, User,Store,Item,Expense,Category,db
 from models import connect_db, User, Store, Item, Expense, Category, db
 from expense_helpers import time_frame_functions
 from expense_helpers import pie_chart_functions
@@ -224,7 +223,6 @@ def add_item(user, store_id):
         brand = item_data.get("brand")
         purpose = item_data.get("purpose")
         price = item_data.get("price")
-        # category_id = int(item_data.get("category"))
         category = item_data.get("category")
         category_id = int(category) if category is not None else None
 

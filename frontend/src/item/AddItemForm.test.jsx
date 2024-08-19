@@ -106,15 +106,5 @@ describe("AddItemForm Component", () => {
     });
   });
 
-  it("opens category modal when button is clicked", async () => {
-    await renderComponent();
-
-    await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: /plus-square/i }));
-    });
-
-    expect(screen.getByTestId("category-modal")).toBeTruthy();
-  });
-
   // Add more tests as needed
 });

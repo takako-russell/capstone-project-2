@@ -28,7 +28,6 @@ const EditCategoryForm = ({ onFinish }) => {
   };
   const handleOrderChange = async (categoryId, value) => {
     try {
-      console.log(`Updating category ${categoryId} with order ${value}`);
       const response = await ShoppingApi.updateCategoryOrder(
         dbUser.id,
         categoryId,
@@ -54,6 +53,10 @@ const EditCategoryForm = ({ onFinish }) => {
 
   const openAddForm = () => {
     setShowAddForm(true);
+  };
+  const categoryAdded = () => {
+    setShowAddForm(false);
+    onFinish(categories);
   };
 
   return (
@@ -93,7 +96,7 @@ const EditCategoryForm = ({ onFinish }) => {
       {showAddForm && (
         <AddCategoryForm
           addCategoryToState={fetchCategories}
-          closeModal={onFinish}
+          closeModal={categoryAdded}
         />
       )}
     </div>

@@ -41,27 +41,18 @@ function UserProvider({ children }) {
   const [isUserLoading, setIsUserLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
-    console.log("fetchUser called");
     if (isAuthenticated && user) {
       setIsUserLoading(true);
       try {
-        console.log("Attempting to get access token");
         const token = await getAccessTokenSilently();
-        console.log("Access token received");
         ShoppingApi.setToken(token);
-        console.log("Attempting to get authenticated user");
         let localUser = await ShoppingApi.getAuthdUser(user.email);
-        console.log("Authenticated user fetched:", localUser);
         if (!localUser) {
-          console.log("Creating new authenticated user");
           localUser = await ShoppingApi.createNewAuthdUser(user);
-          console.log("New user created:", localUser);
         }
         setDbUser(localUser);
       } catch (error) {
         console.error("Error fetching user:", error);
-
-        // Consider adding user-friendly error handling here
       } finally {
         setIsUserLoading(false);
       }
@@ -72,7 +63,6 @@ function UserProvider({ children }) {
   }, [isAuthenticated, user, getAccessTokenSilently]);
 
   useEffect(() => {
-    console.log("UserProvider useEffect triggered");
     if (!isLoading) {
       fetchUser();
     }
@@ -102,11 +92,9 @@ function AppContent() {
   const openStoreModal = () => setIsStoreModalOpen(true);
 
   const searchStores = useCallback(async () => {
-    console.log("searchStores called in App.jsx");
     if (dbUser) {
       try {
         const fetchedStores = await ShoppingApi.getStores(dbUser.id);
-        console.log("Fetched stores:", fetchedStores);
         setStores(fetchedStores || []);
       } catch (error) {
         console.error("Error fetching stores:", error);

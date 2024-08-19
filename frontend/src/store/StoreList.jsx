@@ -28,19 +28,13 @@ function StoreList({
   const { dbUser, isUserLoading, refreshUser } = useContext(UserContext);
 
   const fetchStores = useCallback(() => {
-    console.log("fetchStores called in StoreList");
     if (!isUserLoading && dbUser) {
-      console.log("Conditions met, calling searchStores from fetchStores");
       searchStores();
     }
   }, [isUserLoading, dbUser, searchStores]);
 
   useEffect(() => {
-    console.log("StoreList useEffect triggered");
-    console.log("isUserLoading:", isUserLoading);
-    console.log("dbUser:", dbUser);
     if (!isUserLoading && !dbUser) {
-      console.log("Attempting to refresh user data");
       refreshUser();
     } else {
       fetchStores();
